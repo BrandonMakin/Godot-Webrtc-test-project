@@ -3,7 +3,7 @@ extends Node2D
 var pc1
 var pc2
 
-var show_debug_messages = true;
+var show_debug_messages = false;
 
 func _ready():
 	
@@ -20,6 +20,8 @@ func _ready():
 	pc1.connect("offer_created", self, "send_offer_1_to_2", [], CONNECT_DEFERRED);
 	pc2.connect("offer_created", self, "send_offer_2_to_1", [], CONNECT_DEFERRED);
 
+	pc2.connect("new_peer_message", self, "pc2_display_message", [], CONNECT_DEFERRED);
+
 	print("--host--")
 
 	pc1.host_call()
@@ -29,32 +31,29 @@ func my_method(msg):
 	print(msg);
 
 func pc1_notifications(msg):
-	# This is for DEBUG. It notifies of all DEBUG messages
+	# This is for DEBUG. It notifies of all debug messages
 	# and is not used for the signaling process.  
-	
 	if show_debug_messages:
 		print("pc1 message: " + msg);
 	
 
 func pc2_notifications(msg):
-	# This is for DEBUG. It notifies of all DEBUG messages
+	# This is for DEBUG. It notifies of all debug messages
 	# and is not used for the signaling process.
-
 	if show_debug_messages:
 		print("pc2 message: " + msg);
 
 func send_offer_1_to_2(type, sdp):
 	pc2.set_remote_description(sdp, true)
 	#pass
-	
-	
+
 func send_offer_2_to_1(type, sdp):
 	pc1.set_remote_description(sdp, false)
 	
 func _input(event):
 	if event.is_action_pressed("ui_accept"): #enter
 		print("p1 sending message...")
-		pc1.send_message("hello");
+		pc1.send_message("hello there");
 	if event.is_action_pressed("ui_select"): #space
 		pc1.get_state_peer_connection()
 
@@ -73,3 +72,6 @@ func pc2_has_ice_candidate(MidName, MlineIndexName, Name ):
 		print("pc2 ice candidate: MidName = " + MidName \
 		 + ", MLineIndexName = " + str(MlineIndexName)  \
 		 + ", Name = " + Name);
+
+func pc2_display_message(msg):
+	print("pc2 just got a message from pc1: " + msg);
