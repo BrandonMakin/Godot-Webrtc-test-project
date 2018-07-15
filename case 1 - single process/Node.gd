@@ -24,7 +24,7 @@ func _ready():
 
 	print("--host--")
 
-	pc1.host_call()
+	pc1.create_offer()
 	print("--finish--")
 
 func my_method(msg):
@@ -44,10 +44,12 @@ func pc2_notifications(msg):
 		print("pc2 message: " + msg);
 
 func send_offer_1_to_2(type, sdp):
+	pc1.set_local_description(sdp, true)
 	pc2.set_remote_description(sdp, true)
 	#pass
 
 func send_offer_2_to_1(type, sdp):
+	pc2.set_local_description(sdp, false)
 	pc1.set_remote_description(sdp, false)
 	
 func _input(event):
