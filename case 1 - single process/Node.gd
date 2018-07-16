@@ -3,7 +3,7 @@ extends Node2D
 var pc1
 var pc2
 
-var show_debug_messages = false;
+var show_debug_messages = true;
 
 func _ready():
 	
@@ -11,21 +11,25 @@ func _ready():
 	pc1 = WebRTCPeer.new();
 	pc2 = WebRTCPeer.new();
 	
-	pc1.connect("notify", self, "pc1_notifications", [], CONNECT_DEFERRED);
-	pc2.connect("notify", self, "pc2_notifications", [], CONNECT_DEFERRED);
+	pc1.connect("notify", self, "pc1_notifications");
+	pc2.connect("notify", self, "pc2_notifications");
 	
-	pc1.connect("new_ice_candidate", self, "pc1_has_ice_candidate", [], CONNECT_DEFERRED)
-	pc2.connect("new_ice_candidate", self, "pc2_has_ice_candidate", [], CONNECT_DEFERRED)
+	pc1.connect("new_ice_candidate", self, "pc1_has_ice_candidate")
+	pc2.connect("new_ice_candidate", self, "pc2_has_ice_candidate")
 	
-	pc1.connect("offer_created", self, "send_offer_1_to_2", [], CONNECT_DEFERRED);
-	pc2.connect("offer_created", self, "send_offer_2_to_1", [], CONNECT_DEFERRED);
+	pc1.connect("offer_created", self, "send_offer_1_to_2");
+	pc2.connect("offer_created", self, "send_offer_2_to_1");
 
-	pc2.connect("new_peer_message", self, "pc2_display_message", [], CONNECT_DEFERRED);
+	pc2.connect("new_peer_message", self, "pc2_display_message");
 
 	print("--host--")
 
 	pc1.create_offer()
 	print("--finish--")
+
+func _process(delta):
+	pc1.poll()
+	pc2.poll()
 
 func my_method(msg):
 	print(msg);
