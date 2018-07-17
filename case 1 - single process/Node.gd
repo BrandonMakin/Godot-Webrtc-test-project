@@ -11,6 +11,8 @@ func _ready():
 	pc1 = WebRTCPeer.new();
 	pc2 = WebRTCPeer.new();
 	
+	
+	#"""
 	pc1.connect("notify", self, "pc1_notifications");
 	pc2.connect("notify", self, "pc2_notifications");
 	
@@ -19,8 +21,18 @@ func _ready():
 	
 	pc1.connect("offer_created", self, "send_offer_1_to_2");
 	pc2.connect("offer_created", self, "send_offer_2_to_1");
-
-	pc2.connect("new_peer_message", self, "pc2_display_message");
+	#"""
+	
+	"""
+	pc1.connect("notify", self, "pc1_notifications", [], CONNECT_DEFERRED);
+	pc2.connect("notify", self, "pc2_notifications", [], CONNECT_DEFERRED);
+	
+	pc1.connect("new_ice_candidate", self, "pc1_has_ice_candidate", [], CONNECT_DEFERRED)
+	pc2.connect("new_ice_candidate", self, "pc2_has_ice_candidate", [], CONNECT_DEFERRED)
+	
+	pc1.connect("offer_created", self, "send_offer_1_to_2", [], CONNECT_DEFERRED);
+	pc2.connect("offer_created", self, "send_offer_2_to_1", [], CONNECT_DEFERRED);
+	"""
 
 	print("--host--")
 
@@ -59,7 +71,9 @@ func send_offer_2_to_1(type, sdp):
 func _input(event):
 	if event.is_action_pressed("ui_accept"): #enter
 		print("p1 sending message...")
-		pc1.send_message("hello there");
+		#pc1.send_message("hello there");
+		var hi = "hi" 
+		pc1.put_var(hi)
 	if event.is_action_pressed("ui_select"): #space
 		pc1.get_state_peer_connection()
 
