@@ -69,13 +69,27 @@ func send_offer_2_to_1(type, sdp):
 	pc1.set_remote_description(sdp, false)
 	
 func _input(event):
-	if event.is_action_pressed("ui_accept"): #enter
-		print("p1 sending message...")
-		#pc1.send_message("hello there");
-		var hi = "hi" 
-		pc1.put_var(hi)
-	if event.is_action_pressed("ui_select"): #space
-		pc1.get_state_peer_connection()
+	if event.is_action_pressed("ui_left"): 
+		var message = "hi there" 
+		print("p1 sending message: " + message)
+		message = message.to_utf8()
+		pc1.put_packet(message)
+		#pc1.put_var(message)
+	if event.is_action_pressed("ui_right"): 
+		if (pc2.get_available_packet_count() == 0):
+			print ("No packets to get!")
+		else:
+			#var received_message = pc2.get_var()
+			#print(received_message)
+			
+			#"""
+			var received_message = pc2.get_packet()
+			print(received_message)
+			print("message: " + received_message.get_string_from_utf8())
+			print(received_message.size())
+			for i in received_message:
+				print(i)
+			#"""
 
 func pc1_has_ice_candidate(MidName, MlineIndexName, Name):
 	pc2.add_ice_candidate(MidName, MlineIndexName, Name);
