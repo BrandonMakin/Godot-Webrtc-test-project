@@ -11,7 +11,7 @@ config_version=4
 [application]
 
 config/name="GSoC Tests"
-run/main_scene="res://case 1 - single process/main.tscn"
+run/main_scene="res://case 3 - NetworkedMultiplayerWebRTC/NetMultiTest.tscn"
 config/icon="res://icon.png"
 
 [input]

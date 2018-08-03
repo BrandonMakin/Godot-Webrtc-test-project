@@ -84,11 +84,7 @@ func _input(event):
 			
 			#"""
 			var received_message = pc2.get_packet()
-			print(received_message)
 			print("message: " + received_message.get_string_from_utf8())
-			print(received_message.size())
-			for i in received_message:
-				print(i)
 			#"""
 
 func pc1_has_ice_candidate(MidName, MlineIndexName, Name):
