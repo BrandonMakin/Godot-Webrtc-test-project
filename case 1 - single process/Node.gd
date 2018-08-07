@@ -59,14 +59,14 @@ func pc2_notifications(msg):
 	if show_debug_messages:
 		print("pc2 message: " + msg);
 
-func send_offer_1_to_2(type, sdp):
-	pc1.set_local_description(sdp, true)
-	pc2.set_remote_description(sdp, true)
+func send_offer_1_to_2(sdp, is_offer):
+	pc1.set_local_description(sdp, is_offer)
+	pc2.set_remote_description(sdp, is_offer)
 	#pass
 
-func send_offer_2_to_1(type, sdp):
-	pc2.set_local_description(sdp, false)
-	pc1.set_remote_description(sdp, false)
+func send_offer_2_to_1(sdp, is_offer):
+	pc2.set_local_description(sdp, is_offer)
+	pc1.set_remote_description(sdp, is_offer)
 	
 func _input(event):
 	if event.is_action_pressed("ui_left"): 
