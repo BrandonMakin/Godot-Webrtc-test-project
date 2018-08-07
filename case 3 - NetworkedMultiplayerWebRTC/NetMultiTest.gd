@@ -71,18 +71,18 @@ func send_id(id):
 	client.set_unique_id(id)
 	client.create_offer()
 
-func send_offer_client_to_server(type, sdp, id):
+func send_offer_client_to_server(sdp, is_offer, id):
 	#TODO add to docs: Whose ID is this? client's or server's?
 	#In this case, it's the id of the target peer, not the sending peer
 	
 	print("client->server: id = " + str(id))
-	client.set_local_description(sdp, true, id)
-	server.set_remote_description(sdp, true, client.get_unique_id())
+	client.set_local_description(sdp, is_offer, id)
+	server.set_remote_description(sdp, is_offer, client.get_unique_id())
 	#pass
 
-func send_offer_server_to_client(type, sdp, id):
-	server.set_local_description(sdp, false, id)
-	client.set_remote_description(sdp, false, server.get_unique_id())
+func send_offer_server_to_client(sdp, is_offer, id):
+	server.set_local_description(sdp, is_offer, id)
+	client.set_remote_description(sdp, is_offer, server.get_unique_id())
 	
 func _input(event):
 	if event.is_action_pressed("ui_left"): 
